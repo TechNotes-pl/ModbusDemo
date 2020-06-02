@@ -125,5 +125,8 @@
     <ClCompile Include="Port\porttimer.c">
       <Filter>Source Files\Port</Filter>
     </ClCompile>
+    <ClCompile Include="Port\porttcp.c">
+      <Filter>Source Files\Port</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

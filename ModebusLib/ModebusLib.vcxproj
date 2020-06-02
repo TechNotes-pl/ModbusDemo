@@ -186,6 +186,7 @@
     <ClCompile Include="Port\portevent.c" />
     <ClCompile Include="Port\portother.c" />
     <ClCompile Include="Port\portserial.c" />
+    <ClCompile Include="Port\porttcp.c" />
     <ClCompile Include="Port\porttimer.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
