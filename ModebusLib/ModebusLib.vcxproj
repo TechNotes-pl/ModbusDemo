@@ -120,10 +120,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;MODEBUSLIB_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;MODEBUSLIB_EXPORTS;_WINDOWS;_USRDLL;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>modbus/include;modbus/ascii;modbus/rtu;modbus/tcp;Port;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,16 +153,40 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="modbus\include\mb.h" />
+    <ClInclude Include="modbus\include\mbconfig.h" />
+    <ClInclude Include="modbus\include\mbframe.h" />
+    <ClInclude Include="modbus\include\mbfunc.h" />
+    <ClInclude Include="modbus\include\mbport.h" />
+    <ClInclude Include="modbus\include\mbproto.h" />
+    <ClInclude Include="modbus\include\mbutils.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Port\port.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="modbus\ascii\mbascii.c" />
+    <ClCompile Include="modbus\functions\mbfunccoils.c" />
+    <ClCompile Include="modbus\functions\mbfuncdiag.c" />
+    <ClCompile Include="modbus\functions\mbfuncdisc.c" />
+    <ClCompile Include="modbus\functions\mbfuncholding.c" />
+    <ClCompile Include="modbus\functions\mbfuncinput.c" />
+    <ClCompile Include="modbus\functions\mbfuncother.c" />
+    <ClCompile Include="modbus\functions\mbutils.c" />
+    <ClCompile Include="modbus\mb.c" />
+    <ClCompile Include="modbus\rtu\mbcrc.c" />
+    <ClCompile Include="modbus\rtu\mbrtu.c" />
+    <ClCompile Include="modbus\tcp\mbtcp.c" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Port\portevent.c" />
+    <ClCompile Include="Port\portother.c" />
+    <ClCompile Include="Port\portserial.c" />
+    <ClCompile Include="Port\porttimer.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
