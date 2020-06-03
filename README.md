@@ -2,8 +2,8 @@
 This project contains a demo application to test freeModbus library code, written by Christian Walter. 
 Original project is avaliable at https://github.com/cwalter-at/freemodbus, and is not maintened since 2006, so we want to create our own demo application to test freeModbus library ported to MS Windows 10.
 
-Solution contains project for:
-* ModbusLib.dll - freemodbus library
+Solution contains projects for:
+* ModbusLib.dll - freemodbus library,
 * Demo.exe      - Simple client application for Windows 10, x64.
 
 ### To build this project Microsoft Visual Studio 2019 is required.
