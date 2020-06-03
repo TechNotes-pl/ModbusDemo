@@ -11,7 +11,7 @@ If you need some basic information how to create C++ command line application an
 
 ## Demo command line application
 Usage:
-  syntax: Demo <<-h|--help> | <-v|--version>>
+syntax: Demo <<-h|--help> | <-v|--version>>
   
 Optional parameters:
   -h, --help  Print usage information and exit
@@ -22,6 +22,6 @@ If called without parameters, CLI starts.
 ## ModbusLib.dll revision history
 
 Revision 0.1, 3/06/2020:
-* original code by Christian Walter used implement Modebus RTU funcionality.
-* simple API designed, see ModbusLib.h
+* original code by Christian Walter used implement Modebus RTU funcionality,
+* simple API designed, see ModbusLib.h.
          
