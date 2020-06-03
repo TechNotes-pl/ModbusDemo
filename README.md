@@ -10,6 +10,7 @@ Project contains:
 If you need some basic information how to create C++ command line application and DLL library in Visual Studio 2019, please read Microsoft article
 https://docs.microsoft.com/en-us/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=vs-2019
 
+## Demo command line application
 Usage:
   syntax: Demo <<-h|--help> | <-v|--version>>
   Optional parameters:
