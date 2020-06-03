@@ -13,11 +13,12 @@ https://docs.microsoft.com/en-us/cpp/build/walkthrough-creating-and-using-a-dyna
 ## Demo command line application
 Usage:
   syntax: Demo <<-h|--help> | <-v|--version>>
-  Optional parameters:
+  
+Optional parameters:
   -h, --help  Print usage information and exit
   -v, --version Print version information and exit
   
-  If called without parameters, CLI starts.
+If called without parameters, CLI starts.
 
 ## ModbusLib.dll revision history
 
