@@ -1,6 +1,6 @@
 # ModbusDemo for Windows 10
 This project contains a demo application to test freeModbus library code, written by @"cwalter-at" Christian Walter. 
-Original project is avaliable at https://github.com/cwalter-at/freemodbus, and is not maintened since 2006, so we want to create our own demo application to test freeModbus library ported to MS Windows 10.
+Original project is avaliable at https://github.com/cwalter-at/freemodbus, and is not maintened since 2006, so we want to create our own demo application to test freeModbus library ported to __MS Windows 10__.
 
 Solution contains projects for:
 * ModbusLib.dll - freemodbus library,
