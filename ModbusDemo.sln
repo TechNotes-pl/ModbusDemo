@@ -4,13 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30114.128
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo", "Demo\Demo.vcxproj", "{2CE875BA-777E-4CAA-868F-A85D620016F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4432193B-FCB2-42D6-BA25-3A8DEA3DBA9B} = {4432193B-FCB2-42D6-BA25-3A8DEA3DBA9B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14113366-3223-4E63-86D3-31D68A123E99}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModebusLib", "ModebusLib\ModebusLib.vcxproj", "{4432193B-FCB2-42D6-BA25-3A8DEA3DBA9B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModbusLib", "ModebusLib\ModebusLib.vcxproj", "{4432193B-FCB2-42D6-BA25-3A8DEA3DBA9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

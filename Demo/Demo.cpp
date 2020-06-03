@@ -6,39 +6,56 @@
 #include <sstream>
 #include <conio.h>
 
+#include "ModbusLib.h"
+
 using namespace std;
 
 const char* PROG = "freeModbus";
+const char* VERSION = "0.1";
 
-void Usage();
-int InitializeDevice();
-void CloseDevice();
+void Usage(char* arg);
+void Version();
+void CliMessage();
 
+int Initialize();
 void ShowStatus();
 void Enable();
 void Disable();
 
-int main()
+int main(int argc, char* argv[])
 {
     string modestr;
     int mode = 0;
     char selection;
 
-    int status = InitializeDevice();
-    if (status != EXIT_SUCCESS)
-        return status;
+    // Process command line parameters
+    if (argc > 1) {
 
-    cout << "Enter mode (0 - rtu, 1 - tcp): ";
-    getline(cin, modestr);
-    stringstream(modestr) >> mode;
-    cout << PROG << ": Mode: " << mode << ". Type 'q' for quit or 'h' for help!\n";
+        for (int i = 1; i < argc; ++i) {
+            string arg = argv[i];
+            if ((arg == "-h") || (arg == "--help")) {
+                Usage(argv[0]);
+                return 0;
+            }
+            else if ((arg == "-v") || (arg == "--version")) {
+                Version();
+                return 0;
+            }
+        }
+    }
+
+    // Starting CLI
+    CliMessage();
+
+    if (Initialize() != EXIT_SUCCESS)
+        return -1;
 
     while ((selection = _getch()) != 'q')
     {
         switch (selection)
         {
         case 'h':
-            Usage();
+            Usage(NULL);
             break;
         case 'd':
             Disable();
@@ -59,74 +76,67 @@ int main()
 }
 
 
-void Usage()
+void Usage(char *arg)
 {
-    std::cout << "FreeModbus demo application help:" << endl <<
+    cout << PROG << " demo application help:" << endl <<
         "  'd' ... disable protocol stack." << endl <<
         "  'e' ... enabled the protocol stack" << endl <<
         "  's' ... show current status" << endl <<
         "  'q' ... quit application" << endl <<
-        "  'h' ... print this information" << endl <<
-        "\nCopyright 2020 Technotes-pl <office@technotes.pl>" << endl;
+        "  'h' ... print this information" << endl << endl <<
+        "Copyright 2020 Technotes-pl <office@technotes.pl>" << endl;
 }
 
-int InitializeDevice()
+void Version()
 {
-    //if (eMBInit(MB_RTU, 0x0A, 1, 38400, MB_PAR_EVEN) != MB_ENOERR)
-    //{
-    //    std::cerr << PROG << ":" << "Can't initialize modbus stack!\r\n";
-    //    return EXIT_FAILURE;
-    //}
+    cout << PROG << " demo application, version " << VERSION << endl;
+}
 
-    //if (eMBSetSlaveID(0x34, TRUE, ucSlaveID, 3) != MB_ENOERR)
-    //{
-    //    std::cerr << PROG << ":" << "Can't set slave id!\r\n";
-    //    return EXIT_FAILURE;
-    //}
+void CliMessage()
+{
+    cout << PROG << " CLI, version " << VERSION << endl <<
+            "Press h for help, q to exit" << endl; 
+}
 
-    ///* Create synchronization primitives and set the current state
-    // * of the thread to STOPPED.
-    // */
-    //InitializeCriticalSection(&hPollLock);
-    //eSetPollingThreadState(STOPPED);
+int Initialize()
+{
+    statusCode status;
+    if ((status = InitializeDevice(0)) != statusCode::ST_ENOERR)
+    {
+        cerr << PROG << ":" << "Can't initialize modbus stack or can't set slave id!" << endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
 
-void CloseDevice()
-{
-    /* Release hardware resources. */
-    //(void)eMBClose();
-}
-
 void ShowStatus()
 {
-    //switch (eGetPollingThreadState())
-    //{
-    //case RUNNING:
-    //    cout << "Protocol stack is running." << endl;
-    //    break;
-    //case STOPPED:
-    //    cout << "Protocol stack is stopped." << endl;
-    //    break;
-    //case SHUTDOWN:
-    //    cout << "Protocol stack is shuting down." << endl;
-    //    break;
-    //}
+    switch (GetDeviceStatus())
+    {
+    case threadState::IS_RUNNING:
+        cout << "Protocol stack is running." << endl;
+        break;
+    case threadState::IS_STOPPED:
+        cout << "Protocol stack is stopped." << endl;
+        break;
+    case threadState::IS_SHUTDOWN:
+        cout << "Protocol stack is shuting down." << endl;
+        break;
+    }
     cout << "Not implemented yet." << endl;
 }
 
 void Enable()
 {
-    //if (bCreatePollingThread() != TRUE)
-    //{
-    //    cout << "Can't start protocol stack! Already running?" << endl;
-    //}
-    cout << "Is running..." << endl;
+    if (!EnableDevice())
+        cerr << "Can't start protocol stack! Already running?" << endl;
+    else
+        cout << "Is running..." << endl;
 }
 
 void Disable()
 {
-    // eSetPollingThreadState(SHUTDOWN);
+    DisableDevice();
     cout << "Stopped..." << endl;
 }
