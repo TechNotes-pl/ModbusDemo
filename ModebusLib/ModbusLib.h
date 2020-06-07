@@ -26,7 +26,22 @@ enum class threadState
     IS_SHUTDOWN
 };
 
-extern "C" MODBUSLIB_API statusCode InitializeDevice(int param);
+
+/*! \ingroup modbus
+ * \brief Modbus serial transmission modes (RTU/ASCII/TCP).
+ *
+ * Modbus serial supports two transmission modes - ASCII or RTU. RTU
+ * is faster but has more hardware requirements and requires a network with
+ * a low jitter. ASCII is slower and more reliable on slower links (E.g. modems)
+ */
+enum class ModbusType
+{
+    MB_RTU      = 0,            /*!< RTU transmission mode. */
+    MB_ASCII    = 1,            /*!< ASCII transmission mode. */
+    MB_TCP      = 2             /*!< TCP mode. */
+};
+
+extern "C" MODBUSLIB_API statusCode InitializeDevice(ModbusType modbusMode, unsigned char modbusSlaveAddress, unsigned char serialPortNumber, unsigned long baudRate);
 extern "C" MODBUSLIB_API threadState GetDeviceStatus();
 extern "C" MODBUSLIB_API bool EnableDevice();
 extern "C" MODBUSLIB_API void DisableDevice();

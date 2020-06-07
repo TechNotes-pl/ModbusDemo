@@ -13,11 +13,12 @@ using namespace std;
 const char* PROG = "freeModbus";
 const char* VERSION = "0.1";
 
-void Usage(char* arg);
+void Usage(char* arg = NULL);
 void Version();
 void CliMessage();
+void Prompt();
 
-int Initialize();
+bool Initialize(ModbusType mode);
 void ShowStatus();
 void Enable();
 void Disable();
@@ -46,8 +47,9 @@ int main(int argc, char* argv[])
 
     // Starting CLI
     CliMessage();
+    Prompt();
 
-    if (Initialize() != EXIT_SUCCESS)
+    if (!Initialize(ModbusType::MB_RTU))
         return -1;
 
     while ((selection = _getch()) != 'q')
@@ -55,7 +57,8 @@ int main(int argc, char* argv[])
         switch (selection)
         {
         case 'h':
-            Usage(NULL);
+            Usage();
+            Prompt();
             break;
         case 'd':
             Disable();
@@ -98,16 +101,33 @@ void CliMessage()
             "Press h for help, q to exit" << endl; 
 }
 
-int Initialize()
+void Prompt()
 {
+    cout << "> ";
+}
+
+bool Initialize(ModbusType mode)
+{
+    const unsigned char serialPortNumber = 1;
+    const unsigned char modbusSlaveNumber = 0x0A;
+    const unsigned long baudRate = 38400;
+
     statusCode status;
-    if ((status = InitializeDevice(0)) != statusCode::ST_ENOERR)
+    if ((status = InitializeDevice(mode, modbusSlaveNumber, serialPortNumber, baudRate)) != statusCode::ST_ENOERR)
     {
-        cerr << PROG << ":" << "Can't initialize modbus stack or can't set slave id!" << endl;
-        return EXIT_FAILURE;
+        switch (status) {
+        case statusCode::ST_EPORTERR:
+            cerr << PROG << ": Can't initialize serial port COM" << serialPortNumber << endl;
+            break;
+        default:
+            cerr << PROG << ": " << "Error " << (int)status << " - Can't initialize modbus stack or can't set slave id!" << endl;
+            break;
+        }
+        
+        return false;
     }
 
-    return EXIT_SUCCESS;
+    return true;
 }
 
 void ShowStatus()

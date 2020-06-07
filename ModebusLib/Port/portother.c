@@ -22,8 +22,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// for TCP/IP, TODO: Socket implementation
-//#include "winsock2.h"
+//#if MB_TCP_ENABLED > 0
+#if 1
+#include "winsock2.h"   // for TCP/IP
+#pragma comment(lib, "Ws2_32.lib")
+#endif
 
 #include "port.h"
 
@@ -57,6 +60,9 @@ Error2String( DWORD dwError )
     return szUserBuf;
 }
 
+
+#if MB_TCP_ENABLED == 0
+
 void
 vMBPortLog( eMBPortLogLevel eLevel, const TCHAR * szModule, const TCHAR * szFmt, ... )
 {
@@ -89,11 +95,8 @@ vMBPortLog( eMBPortLogLevel eLevel, const TCHAR * szModule, const TCHAR * szFmt,
     }
     
 }
+#else
 
-
-
-/* TCP/IP Stuff */
-/*
 void
 vMBPortLog(eMBPortLogLevel eLevel, const TCHAR* szModule, const TCHAR* szFmt, ...)
 {
@@ -107,39 +110,41 @@ vMBPortLog(eMBPortLogLevel eLevel, const TCHAR* szModule, const TCHAR* szFmt, ..
     _vftprintf(stderr, szFmt, args);
     va_end(args);
 }
-*/
 
-//BOOL
-//prvMBTCPPortAddressToString(SOCKET xSocket, LPTSTR szAddr, USHORT usBufSize)
-//{
-//    BOOL            bOkay;
-//    SOCKADDR_IN     xClientAddr;
-//    int             iAddrLen = sizeof(SOCKADDR_IN);
-//    DWORD           dwBufSize = usBufSize;
-//
-//    assert((szAddr != NULL) && (usBufSize > 0));
-//    if (getsockname(xSocket, (SOCKADDR*)&xClientAddr, &iAddrLen) == SOCKET_ERROR)
-//    {
-//        bOkay = FALSE;
-//    }
-//    else if (WSAAddressToString((SOCKADDR*)&xClientAddr, iAddrLen, NULL, szAddr,
-//        &dwBufSize) == SOCKET_ERROR)
-//    {
-//        bOkay = FALSE;
-//    }
-//    else
-//    {
-//        bOkay = TRUE;
-//    }
-//    return bOkay;
-//}
+#endif
+
+
+BOOL
+prvMBTCPPortAddressToString(SOCKET xSocket, LPTSTR szAddr, USHORT usBufSize)
+{
+    BOOL            bOkay;
+    SOCKADDR_IN     xClientAddr;
+    int             iAddrLen = sizeof(SOCKADDR_IN);
+    DWORD           dwBufSize = usBufSize;
+
+    assert((szAddr != NULL) && (usBufSize > 0));
+    if (getsockname(xSocket, (SOCKADDR*)&xClientAddr, &iAddrLen) == SOCKET_ERROR)
+    {
+        bOkay = FALSE;
+    }
+    else if (WSAAddressToString((SOCKADDR*)&xClientAddr, iAddrLen, NULL, szAddr,
+        &dwBufSize) == SOCKET_ERROR)
+    {
+        bOkay = FALSE;
+    }
+    else
+    {
+        bOkay = TRUE;
+    }
+    return bOkay;
+}
 
 LPTSTR
 prvMBTCPPortFrameToString(UCHAR* pucFrame, USHORT usFrameLen)
 {
     LPTSTR          szBuf;
     int             i;
-    int             res;
+    int             res = 0;
     int             szBufPos = 0;
     int             szBufLength = usFrameLen + 128;
 
@@ -186,8 +191,7 @@ prvMBTCPPortFrameToString(UCHAR* pucFrame, USHORT usFrameLen)
             }
 
             /* Print the data. */
-            res = _sntprintf_s(&szBuf[szBufPos], szBufLength, _TRUNCATE, _T("%02X"),
-                pucFrame[i]);
+            res = _sntprintf_s(&szBuf[szBufPos], szBufLength, _TRUNCATE, _T("%02X"), pucFrame[i]);
             if (res == -1)
             {
                 break;

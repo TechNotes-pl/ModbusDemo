@@ -30,20 +30,26 @@ static enum ThreadState
     SHUTDOWN
 } ePollThreadState;
 
-
-
 // DLL internal functions:
 static BOOL     bCreatePollingThread(void);
 static enum ThreadState eGetPollingThreadState(void);
 static void     eSetPollingThreadState(enum ThreadState eNewState);
 static DWORD WINAPI dwPollingThread(LPVOID lpParameter);
 
-statusCode InitializeDevice(int param)
+statusCode InitializeDevice(ModbusType modbusMode, unsigned char modbusSlaveAddress, unsigned char serialPortNumber, unsigned long baudRate)
 {
     eMBErrorCode ret_val;
     char blah[] = "???";
+    eMBMode mode;
 
-    if ((ret_val = eMBInit(MB_RTU, 0x0A, 1, 38400, MB_PAR_EVEN)) != MB_ENOERR)
+    // Convert types: ModbusType -> enum eMBMode
+    if (modbusMode == ModbusType::MB_ASCII)
+        mode = MB_ASCII;
+    else if (modbusMode == ModbusType::MB_RTU)
+        mode = MB_RTU;
+    else mode = MB_TCP;
+
+    if ((ret_val = eMBInit(mode, modbusSlaveAddress, serialPortNumber, baudRate, MB_PAR_EVEN)) != MB_ENOERR)
         return (statusCode)ret_val;
 
     if ((ret_val = eMBSetSlaveID(0x34, TRUE, (UCHAR*)blah, 3)) != MB_ENOERR)
