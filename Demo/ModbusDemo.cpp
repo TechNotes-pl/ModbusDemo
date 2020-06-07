@@ -1,40 +1,24 @@
-// Demo.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// ModbusDemo.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <conio.h>
-
-#include "ModbusLib.h"
+#include "ModbusDemo.h"
 
 using namespace std;
 
-const char* PROG = "freeModbus";
-const char* VERSION = "0.1";
-
-void Usage(char* arg = NULL);
-void Version();
-void CliMessage();
-void Prompt();
-
-bool Initialize(ModbusType mode);
-void ShowStatus();
-void Enable();
-void Disable();
-
-int main(int argc, char* argv[])
+int main(const int argc, char* argv[])
 {
-    string modestr;
-    int mode = 0;
+	auto mode = 0;
     char selection;
 
     // Process command line parameters
     if (argc > 1) {
 
-        for (int i = 1; i < argc; ++i) {
+        for (auto i = 1; i < argc; ++i) {
             string arg = argv[i];
-            if ((arg == "-h") || (arg == "--help")) {
+            if (arg == "-h" || arg == "--help") {
                 Usage(argv[0]);
                 return 0;
             }
@@ -75,7 +59,7 @@ int main(int argc, char* argv[])
     }
 
     CloseDevice();
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 
@@ -106,21 +90,26 @@ void Prompt()
     cout << "> ";
 }
 
+/**
+ * \brief 
+ * \param mode 
+ * \return 
+ */
 bool Initialize(ModbusType mode)
 {
-    const unsigned char serialPortNumber = 1;
-    const unsigned char modbusSlaveNumber = 0x0A;
-    const unsigned long baudRate = 38400;
+    const unsigned char serial_port_number = 1;
+    const unsigned char modbus_slave_number = 0x0A;
+    const unsigned long baud_rate = 38400;
 
     statusCode status;
-    if ((status = InitializeDevice(mode, modbusSlaveNumber, serialPortNumber, baudRate)) != statusCode::ST_ENOERR)
+    if ((status = InitializeDevice(mode, modbus_slave_number, serial_port_number, baud_rate)) != statusCode::ST_ENOERR)
     {
         switch (status) {
         case statusCode::ST_EPORTERR:
-            cerr << PROG << ": Can't initialize serial port COM" << serialPortNumber << endl;
+            cerr << PROG << ": Can't initialize serial port COM" << serial_port_number << endl;
             break;
         default:
-            cerr << PROG << ": " << "Error " << (int)status << " - Can't initialize modbus stack or can't set slave id!" << endl;
+            cerr << PROG << ": " << "Error " << static_cast<int>(status) << " - Can't initialize modbus stack or can't set slave id!" << endl;
             break;
         }
         
@@ -141,7 +130,7 @@ void ShowStatus()
         cout << "Protocol stack is stopped." << endl;
         break;
     case threadState::IS_SHUTDOWN:
-        cout << "Protocol stack is shuting down." << endl;
+        cout << "Protocol stack is shutting down." << endl;
         break;
     }
     cout << "Not implemented yet." << endl;

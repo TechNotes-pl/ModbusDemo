@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Demo.cpp">
+    <ClInclude Include="ModbusDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ModbusDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
