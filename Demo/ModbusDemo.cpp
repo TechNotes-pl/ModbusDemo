@@ -12,6 +12,7 @@ int main(const int argc, char* argv[])
 {
 	auto mode = 0;
     char selection;
+    unsigned char serial_port_number = 1;
 
     // Process command line parameters
     if (argc > 1) {
@@ -26,6 +27,20 @@ int main(const int argc, char* argv[])
                 Version();
                 return 0;
             }
+            else if (arg == "-p") {
+                if (++i < argc) {
+                    serial_port_number = atoi(argv[i]);
+                    if (serial_port_number == 0)
+                    {
+                        cerr << "Error: Wrong port number, use digits only." << endl;
+                        return 0;
+                    }
+                }                 
+                else {
+                    cerr << "Error: Port number missing." << endl;
+                    return 0;
+                }
+            }
         }
     }
 
@@ -33,7 +48,7 @@ int main(const int argc, char* argv[])
     CliMessage();
     Prompt();
 
-    if (!Initialize(ModbusType::MB_RTU))
+    if (!Initialize(ModbusType::MB_RTU, serial_port_number))
         return -1;
 
     while ((selection = _getch()) != 'q')
@@ -46,12 +61,15 @@ int main(const int argc, char* argv[])
             break;
         case 'd':
             Disable();
+            Prompt();
             break;
         case 'e':
             Enable();
+            Prompt();
             break;
         case 's':
             ShowStatus();
+            Prompt();
             break;
         default:
             break;
@@ -95,9 +113,8 @@ void Prompt()
  * \param mode 
  * \return 
  */
-bool Initialize(ModbusType mode)
+bool Initialize(ModbusType mode, unsigned char serial_port_number)
 {
-    const unsigned char serial_port_number = 1;
     const unsigned char modbus_slave_number = 0x0A;
     const unsigned long baud_rate = 38400;
 
@@ -133,7 +150,6 @@ void ShowStatus()
         cout << "Protocol stack is shutting down." << endl;
         break;
     }
-    cout << "Not implemented yet." << endl;
 }
 
 void Enable()

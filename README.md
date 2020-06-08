@@ -1,6 +1,6 @@
-# ModbusDemo for Windows 10
-> This project contains a demo application to test freeModbus library code, written by "@cwalter-at" (Christian Walter). 
-> Original project is avaliable at [github](https://github.com/cwalter-at/freemodbus), and is not maintened since 2006, so we intend to create our own demo application to test freeModbus library ported to **MS Windows 10**.
+# ModbusDemo x64 (for Windows 10)
+This project contains a demo application to test freeModbus library code, written by "@cwalter-at" (Christian Walter). 
+Original project is avaliable at [github](https://github.com/cwalter-at/freemodbus), and is not maintened since 2006, so we intend to create our own demo application to test freeModbus library ported to **MS Windows 10**.
 
 Solution contains projects for:
 * **ModbusLib.dll** - freemodbus library,
@@ -12,14 +12,19 @@ If you need some basic information how to create C++ command line application an
 ## Demo command line application
 Usage:
 
-*syntax:* 
-**Demo <<-h|--help> | <-v|--version>>*
+> *syntax:*
+>
+>**Demo.exe [<-h|--help> | <-v|--version>] [-p <serial_port_number>]**
   
 Optional parameters:
-*-h, --help*  Print usage information and exit
-*-v, --version* Print version information and exit
+
+*-h, --help* - print usage information and exit,
+
+*-v, --version* - print version information and exit,
+
+*-p 5* - use COM5 to connect with Modbus Master Device (COM1 is used by default).
   
-If called without parameters, CLI starts.
+If called without parameters, CLI starts using COM1.
 
 ## ModbusLib.dll revision history
 

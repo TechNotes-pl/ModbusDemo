@@ -10,7 +10,7 @@ void Version();
 void CliMessage();
 void Prompt();
 
-bool Initialize(ModbusType mode);
+bool Initialize(ModbusType mode, unsigned char serial_port_number);
 void ShowStatus();
 void Enable();
 void Disable();
