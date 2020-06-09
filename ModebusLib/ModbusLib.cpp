@@ -85,7 +85,15 @@ void CloseDevice()
     (void)eMBClose();
 }
 
-
+bool SetInputRegisterValue(unsigned char address, unsigned char value)
+{
+    if (address < REG_INPUT_NREGS)
+    {
+        usRegInputBuf[address] = value;
+        return true;
+    }
+    return false;
+}
 
 // DEMO Callbacks
 

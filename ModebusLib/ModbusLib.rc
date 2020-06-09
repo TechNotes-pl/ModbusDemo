@@ -68,12 +68,12 @@ BEGIN
         BLOCK "041504b0"
         BEGIN
             VALUE "CompanyName", "TechNOTES"
-            VALUE "FileDescription", "freeModbus library"
+            VALUE "FileDescription", "FreeModbus (ASCII, RTU, TCP) library"
             VALUE "FileVersion", "0.0.0.1"
             VALUE "InternalName", "ModbusLi.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2020 Technotes-pl"
+            VALUE "LegalCopyright", "Copyright (C) 2020 www.techNOTES.pl"
             VALUE "OriginalFilename", "ModbusLi.dll"
-            VALUE "ProductName", "Modbus ASCII, RTU, TCP implementation"
+            VALUE "ProductName", "FreeModbus library"
             VALUE "ProductVersion", "0.0.0.1"
         END
     END

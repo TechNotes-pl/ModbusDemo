@@ -41,6 +41,8 @@ enum class ModbusType
     MB_TCP      = 2             /*!< TCP mode. */
 };
 
+extern "C" MODBUSLIB_API bool SetInputRegisterValue(unsigned char address, unsigned char value);
+
 extern "C" MODBUSLIB_API statusCode InitializeDevice(ModbusType modbusMode, unsigned char modbusSlaveAddress, unsigned char serialPortNumber, unsigned long baudRate);
 extern "C" MODBUSLIB_API threadState GetDeviceStatus();
 extern "C" MODBUSLIB_API bool EnableDevice();

@@ -44,6 +44,10 @@ int main(const int argc, char* argv[])
         }
     }
 
+    // Set sample values to registers    
+    SetInputRegisterValue(0, 18);
+    SetInputRegisterValue(0x02, 255);
+
     // Starting CLI
     CliMessage();
     Prompt();
